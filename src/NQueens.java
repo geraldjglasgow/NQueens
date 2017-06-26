@@ -6,6 +6,7 @@
 public class NQueens {
 
     private int count = 0;
+    private int nodes = 0;
 
     /**
      * This method is called recursively to try to solve for all possible solutions for the
@@ -25,6 +26,7 @@ public class NQueens {
         }
         else {
             for (int i = 0; i < n; i++) { //else try to place the queen on the board
+                nodes++;
                 board[a] = i;
                 if (canPlace(board, a)){  // check if placing the queen is valid
                     solve(board, a+1);    // if queen was placed without problem then move on to place the next queen recursively in the next row
@@ -32,6 +34,43 @@ public class NQueens {
             }
         }
     }
+    public void optimization1(int[] board, int a){
+        int n = board.length;
+        if (a == n){            //if the board has been solved each recursive step will return 1 at a time and print the board
+            if (count < 4){
+                printQueens(board);
+            }
+            count++;
+        }
+        else {
+            for (int i = 0; i < n/2; i++) { //else try to place the queen on the board
+                nodes++;
+                board[a] = i;
+                if (canPlace(board, a)){  // check if placing the queen is valid
+                    solve(board, a+1);    // if queen was placed without problem then move on to place the next queen recursively in the next row
+                }
+            }
+        }
+    }
+    public void optimization2(int[] board, int a){
+        int n = board.length;
+        if (a == n){            //if the board has been solved each recursive step will return 1 at a time and print the board
+            if (count < 4){
+                printQueens(board);
+            }
+            count++;
+        }
+        else {
+            for (int i = 1; i < n/2; i++) { //else try to place the queen on the board
+                nodes++;
+                board[a] = i;
+                if (canPlace(board, a)){  // check if placing the queen is valid
+                    solve(board, a+1);    // if queen was placed without problem then move on to place the next queen recursively in the next row
+                }
+            }
+        }
+    }
+
     /**
      * can Place determines if a queen can be placed legally
      * @param board current board
@@ -73,6 +112,9 @@ public class NQueens {
     public void setCount(int n){
         this.count = n;
     }
+    public void setNodes(int n){
+        this.nodes = n;
+    }
     /**
      * for obtaining the value of count
      * @return count
@@ -80,5 +122,7 @@ public class NQueens {
     public int getCount(){
         return count;
     }
-
+    public int getNodes(){
+        return nodes;
+    }
 }
